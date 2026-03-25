@@ -8,5 +8,5 @@ if __name__ == '__main__':
     with app.app_context():
         print('Create DB')
 
-        is_create_db = app_presentation.create_db()
+        is_create_db = app_presentation.create_db(app)
         print('DB created' if is_create_db else 'DB not created')
