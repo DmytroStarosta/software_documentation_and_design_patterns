@@ -5,7 +5,7 @@ from app import db
 class AppPresentation:
     def __init__(self, bll: IAppBll):
         self.bll = bll
-        self.session = db.session()
+        self.session = db.session
 
 
     def create_db(self):
@@ -13,6 +13,7 @@ class AppPresentation:
             self.bll.create_db()
             self.session.commit()
             return True
-        except:
+        except Exception as e:
             self.session.rollback()
+            print(e)
             return False

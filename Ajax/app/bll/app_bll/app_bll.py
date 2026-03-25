@@ -1,4 +1,4 @@
-from interface_app_bll import IAppBll
+from app.bll.app_bll.interface_app_bll import IAppBll
 from app.dal.app_dal.interface_app_dal import IAppDal
 
 

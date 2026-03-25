@@ -1,4 +1,4 @@
-from interface_app_dal import IAppDal
+from app.dal.app_dal.interface_app_dal import IAppDal
 
 class AppDal(IAppDal):
     def read_csv(self):
