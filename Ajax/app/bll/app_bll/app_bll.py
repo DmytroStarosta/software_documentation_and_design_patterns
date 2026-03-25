@@ -7,4 +7,6 @@ class AppBll(IAppBll):
         self.dal = dal
 
     def create_db(self):
-        pass
+        data_dict = self.dal.read_csv()
+        self.dal.create_table()
+        self.dal.write_table(data_dict)

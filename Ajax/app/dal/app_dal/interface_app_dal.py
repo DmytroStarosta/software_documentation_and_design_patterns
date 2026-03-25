@@ -10,5 +10,5 @@ class IAppDal(ABC):
         pass
 
     @abstractmethod
-    def write_table(self):
+    def write_table(self, data: dict):
         pass

@@ -7,5 +7,5 @@ class AppDal(IAppDal):
     def create_table(self):
         pass
 
-    def write_table(self):
+    def write_table(self, data: dict):
         pass
