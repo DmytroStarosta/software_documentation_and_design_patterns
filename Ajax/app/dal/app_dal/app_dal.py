@@ -44,7 +44,7 @@ class AppDal(IAppDal):
             user = User(
                 fullname=row["fullname"],
                 email=row["email"],
-                phone_number=row["phone"],
+                phone_number=row["phone_number"],
             )
             db.session.add(user)
             db.session.flush()
@@ -88,10 +88,12 @@ class AppDal(IAppDal):
         for row in reader:
             alarm_message = AlarmMessage(
                 number=row["number"],
-                timestamp=datetime.strptime(row['date_of_hire'], '%Y-%m-%d %H:%M:%S'),
+                timestamp=datetime.strptime(row['timestamp'], '%Y-%m-%d %H:%M:%S'),
                 status=row["status"],
                 device_id=int(device_map[row["device_id"]]),
             )
+            db.session.add(alarm_message)
+            db.session.flush()
 
         #journal
         reader = csv.DictReader(data["journal"])
@@ -99,6 +101,8 @@ class AppDal(IAppDal):
             journal = Journal(
                 name=row["name"],
             )
+            db.session.add(journal)
+            db.session.flush()
 
         #security_system
         reader = csv.DictReader(data["security_system"])
@@ -108,6 +112,8 @@ class AppDal(IAppDal):
                 status=row["status"],
                 location=row["location"],
             )
+            db.session.add(security_system)
+            db.session.flush()
 
 
 

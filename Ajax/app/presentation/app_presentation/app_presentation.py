@@ -11,11 +11,14 @@ class AppPresentation:
 
 
     def create_db(self, app: Flask):
-        try:
-            self.bll.create_db(app)
-            self.session.commit()
-            return True
-        except Exception as e:
-            self.session.rollback()
-            print(e)
-            return False
+        # try:
+        #     self.bll.create_db(app)
+        #     self.session.commit()
+        #     return True
+        # except Exception as e:
+        #     self.session.rollback()
+        #     print(e)
+        #     return False
+        self.bll.create_db(app)
+        self.session.commit()
+        return True
