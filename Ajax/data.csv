@@ -1,4 +1,4 @@
 #user
-id,name,phone,email
+id,fullname,email,phone
 1,name1,phone1,email1
 2,name2,phone2,email2
