@@ -4,11 +4,23 @@ from sqlalchemy_utils import database_exists, create_database
 from app.dal.app_dal.interface_app_dal import IAppDal
 from app import db
 from app.models import *
-from app.core.config import DATABASE_URI
 
 class AppDal(IAppDal):
     def read_csv(self):
-        pass
+        data_dict = {}
+        current_table = None
+        with open("data.csv", newline="", encoding="utf-8") as csvfile:
+            for  line in csvfile:
+                line = line.strip()
+                if not line:
+                    continue
+                if line.startswith("#"):
+                    current_table = line[1:]
+                    data_dict[current_table] = []
+                else:
+                    data_dict[current_table].append(line)
+            return data_dict
+
 
     def create_table(self, app: Flask):
         db.init_app(app)
