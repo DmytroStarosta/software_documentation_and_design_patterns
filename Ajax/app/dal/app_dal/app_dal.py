@@ -1,21 +1,20 @@
 import csv
 from flask import Flask
 from sqlalchemy_utils import database_exists, create_database
-from datetime import datetime
 
 from app.dal.app_dal.interface_app_dal import IAppDal
 from app import db
-from app.models import *
+from app.models import User, Device
+
 
 class AppDal(IAppDal):
     def read_csv(self):
         data_dict = {}
         current_table = None
         with open("data.csv", newline="", encoding="utf-8") as csvfile:
-            for  line in csvfile:
+            for line in csvfile:
                 line = line.strip()
-                if not line:
-                    continue
+                if not line: continue
                 if line.startswith("#"):
                     current_table = line[1:]
                     data_dict[current_table] = []
@@ -23,22 +22,18 @@ class AppDal(IAppDal):
                     data_dict[current_table].append(line)
             return data_dict
 
-
     def create_table(self, app: Flask):
-        db.init_app(app)
-
+        # ВИДАЛИЛИ db.init_app(app), щоб не було RuntimeError
         if not database_exists(app.config["SQLALCHEMY_DATABASE_URI"]):
             create_database(app.config["SQLALCHEMY_DATABASE_URI"])
 
-
         with app.app_context():
+            # Створюємо таблиці (тільки User та Device)
             db.create_all()
 
     def write_table(self, data: dict):
         user_map = {}
-        device_map = {}
-
-        # user
+        # User
         reader = csv.DictReader(data["user"])
         for row in reader:
             user = User(
@@ -50,7 +45,7 @@ class AppDal(IAppDal):
             db.session.flush()
             user_map[row["id"]] = user.id
 
-        #device
+        # Device
         reader = csv.DictReader(data["device"])
         for row in reader:
             device = Device(
@@ -61,59 +56,31 @@ class AppDal(IAppDal):
             )
             db.session.add(device)
             db.session.flush()
-            device_map[row["id"]] = device.id
 
-        #sensor
-        reader = csv.DictReader(data["sensor"])
-        for row in reader:
-            sensor = Sensor(
-                data_type=row["data_type"],
-                device_id=int(device_map[row["device_id"]]),
-            )
-            db.session.add(sensor)
-            db.session.flush()
+        db.session.commit()
 
-        #camera
-        reader = csv.DictReader(data["camera"])
-        for row in reader:
-            camera = Camera(
-                image_quality=row["image_quality"],
-                device_id=int(device_map[row["device_id"]]),
-            )
-            db.session.add(camera)
-            db.session.flush()
+    # --- CRUD Методи ---
+    def get_all_devices(self):
+        return db.session.query(Device).all()
 
-        #alarm_message
-        reader = csv.DictReader(data["alarm_message"])
-        for row in reader:
-            alarm_message = AlarmMessage(
-                number=row["number"],
-                timestamp=datetime.strptime(row['timestamp'], '%Y-%m-%d %H:%M:%S'),
-                status=row["status"],
-                device_id=int(device_map[row["device_id"]]),
-            )
-            db.session.add(alarm_message)
-            db.session.flush()
+    def get_device_by_id(self, device_id: int):
+        return db.session.query(Device).get(device_id)
 
-        #journal
-        reader = csv.DictReader(data["journal"])
-        for row in reader:
-            journal = Journal(
-                name=row["name"],
-            )
-            db.session.add(journal)
-            db.session.flush()
+    def add_device(self, name: str, mac_address: str, location: str, user_id: int):
+        new_device = Device(name=name, mac_address=mac_address, location=location, user_id=user_id)
+        db.session.add(new_device)
+        db.session.commit()
 
-        #security_system
-        reader = csv.DictReader(data["security_system"])
-        for row in reader:
-            security_system = SecuritySystem(
-                access_code=row["access_code"],
-                status=row["status"],
-                location=row["location"],
-            )
-            db.session.add(security_system)
-            db.session.flush()
+    def update_device(self, device_id: int, name: str, mac_address: str, location: str):
+        device = db.session.query(Device).get(device_id)
+        if device:
+            device.name = name
+            device.mac_address = mac_address
+            device.location = location
+            db.session.commit()
 
-
-
+    def delete_device(self, device_id: int):
+        device = db.session.query(Device).get(device_id)
+        if device:
+            db.session.delete(device)
+            db.session.commit()

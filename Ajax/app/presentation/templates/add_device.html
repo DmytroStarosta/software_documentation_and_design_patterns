@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax | New Device</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #121212;
+            color: #E0E0E0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #1E1E1E;
+            padding: 30px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        h1 {
+            color: #03DAC6;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .form-group { margin-bottom: 15px; }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #AAAAAA;
+            font-size: 0.9em;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            background-color: #2C2C2C;
+            border: 1px solid #333;
+            border-radius: 4px;
+            color: #fff;
+            box-sizing: border-box;
+            outline: none;
+        }
+        input:focus {
+            border-color: #03DAC6;
+        }
+        .btn-group { display: flex; gap: 15px; margin-top: 25px; }
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .btn-save { background-color: #03DAC6; color: #000; }
+        .btn-save:hover { background-color: #018786; }
+        .btn-cancel {
+            background-color: transparent;
+            border: 1px solid #555;
+            color: #aaa;
+        }
+        .btn-cancel:hover {
+            border-color: #777;
+            color: #fff;
+            background-color: #2C2C2C;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Device Registration</h1>
+        <form action="/add" method="POST">
+            <div class="form-group">
+                <label>Device Name</label>
+                <input type="text" name="name" placeholder="e.g. FireProtect 2" required>
+            </div>
+            <div class="form-group">
+                <label>MAC Address</label>
+                <input type="text" name="mac_address" placeholder="e.g. 00:1B:44:11:3A:B7" required>
+            </div>
+            <div class="form-group">
+                <label>Location</label>
+                <input type="text" name="location" placeholder="e.g. Kitchen" required>
+            </div>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-save">ADD DEVICE</button>
+                <a href="/" class="btn btn-cancel">CANCEL</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
