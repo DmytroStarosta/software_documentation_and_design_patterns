@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax Systems | Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #121212;
+            color: #E0E0E0;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #FFFFFF;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+
+        .top-bar {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 1000px;
+            background-color: #1E1E1E;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 18px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+
+        th {
+            background-color: #2C2C2C;
+            color: #BB86FC;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        tr:hover { background-color: #252525; }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+            border: none;
+        }
+
+        .btn-add {
+            background-color: #BB86FC;
+            color: #000;
+        }
+
+        .btn-add:hover { background-color: #9A67EA; transform: translateY(-2px); }
+
+        .action-btns { display: flex; gap: 10px; }
+
+        .btn-edit {
+            border: 1px solid #03DAC6;
+            color: #03DAC6;
+            padding: 6px 12px;
+            font-size: 0.85em;
+        }
+
+        .btn-edit:hover { background-color: #03DAC6; color: #000; }
+
+        .btn-delete {
+            border: 1px solid #CF6679;
+            color: #CF6679;
+            padding: 6px 12px;
+            font-size: 0.85em;
+        }
+
+        .btn-delete:hover { background-color: #CF6679; color: #fff; }
+    </style>
+</head>
+<body>
+
+    <h1>Ajax Device Management</h1>
+
+    <div class="top-bar">
+        <a href="/add" class="btn btn-add">+ ADD NEW DEVICE</a>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Device Name</th>
+                    <th>MAC Address</th>
+                    <th>Location</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for device in devices %}
+                <tr>
+                    <td>{{ device.id }}</td>
+                    <td>{{ device.name }}</td>
+                    <td><code>{{ device.mac_address }}</code></td>
+                    <td>{{ device.location }}</td>
+                    <td>
+                        <div class="action-btns">
+                            <a href="/edit/{{ device.id }}" class="btn-edit">EDIT</a>
+                            <a href="/delete/{{ device.id }}" class="btn-delete" onclick="return confirm('Are you sure?')">DELETE</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
