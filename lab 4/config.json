@@ -1,0 +1,12 @@
+{
+    "storage_type": "kafka",
+    "dataset_path": "dataset.csv",
+    "redis_config": {
+        "host": "localhost",
+        "port": 6379
+    },
+    "kafka_config": {
+        "bootstrap_servers": "localhost:9092",
+        "topic": "taxi_trips"
+    }
+}
