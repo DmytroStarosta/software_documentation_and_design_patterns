@@ -14,4 +14,4 @@ class KafkaStrategy(StorageStrategy):
     def save(self, data: dict):
         self.producer.send(self.topic, value=data)
         self.producer.flush()
-        print(f" Sent to Kafka: {data}")
+        print(f" Sent to Kafka (topic: {self.topic})")

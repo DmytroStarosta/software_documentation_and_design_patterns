@@ -1,5 +1,5 @@
 {
-    "storage_type": "redis",
+    "storage_type": "kafka",
     "dataset_path": "dataset.csv",
     "redis_config": {
         "host": "localhost",
